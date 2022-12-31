@@ -4,6 +4,7 @@
 const express = require('express')
 const ejs = require('ejs')
 const mysqlDB = require('./mysqlDB')
+const mongoDB = require('./mongoDB')
 var bodyParser = require('body-parser')
 
 const app = express()
@@ -48,12 +49,13 @@ app.get('/depts', (req, res) => {
 
 //EMPLOYEES(MONGODB) PAGE ran at localhost:portNum/employeesMongoDB
 app.get('/employeesMongoDB', (req, res) => {
-    res.send(
-        `
-        <h2>Employees(MongoDB)</h2>
-        <h3><a href="http://localhost:${portNum}/">Home</a></h3>
-        `
-    )
+    mongoDB.getEmployeesMongoDB()
+        .then((data) => {
+            res.render('employeesMongo', { employees: data })
+        })
+        .catch(() => {
+            res.send('error')
+        })
 })
 
 

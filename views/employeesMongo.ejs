@@ -1,0 +1,27 @@
+<style>
+    table,
+    th,
+    td {border: 1px solid black;}
+</style>
+<h2>Employees(MongoDB)</h2>
+<table>
+<tr>
+    <th>EID</th>
+    <th>Phone</th>
+    <th>Email</th>
+</tr>
+<% employees.forEach((employee)=> { %>
+    <tr>
+        <td>
+            <%= employee._id %>
+        </td>
+        <td>
+            <%= employee.phone %>
+        </td>
+        <td>
+            <%= employee.email %>
+        </td>
+    </tr>
+    <% }) %>
+</table>
+<h3><a href="http://localhost:4001/">Home</a></h3>
