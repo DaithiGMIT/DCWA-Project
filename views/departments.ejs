@@ -1,0 +1,31 @@
+<style>
+    table,
+    th,
+    td {border: 1px solid black;}
+</style>
+<h2>Departments</h2>
+<table>
+<tr>
+    <th>DID</th>
+    <th>Name</th>
+    <th>Budget</th>
+    <th>Location</th>
+</tr>
+<% departments.forEach((departments)=> { %>
+    <tr>
+        <td>
+            <%= departments.did %>
+        </td>
+        <td>
+            <%= departments.dname %>
+        </td>
+        <td>
+            <%= departments.budget %>
+        </td>
+        <td>
+            <%= departments.lid %>
+        </td>
+    </tr>
+    <% }) %>
+</table>
+<h3><a href="http://localhost:4001/">Home</a></h3>

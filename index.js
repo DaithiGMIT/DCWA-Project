@@ -3,49 +3,55 @@
 //IMPORTS
 const express = require('express')
 const ejs = require('ejs')
+const mysqlDB = require('./mysqlDB')
+var bodyParser = require('body-parser')
 
 const app = express()
+app.set('view engine', 'ejs');
+
 //Declare Port Number
 const portNum = 4001
 
 //HOME PAGE ran at localhost:portNum/
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.send(
         `
         <h2>Home</h2>
         <h3><a href="http://localhost:${portNum}/employees">Employees</a></h3>
-        <h3><a href="http://localhost:${portNum}/departments">Departments</a></h3>
-        <h3><a href="http://localhost:${portNum}/employeesMongo">Employees(MongoDB)</a></h3>
+        <h3><a href="http://localhost:${portNum}/depts">Departments</a></h3>
+        <h3><a href="http://localhost:${portNum}/employeesMongoDB">Employees(MongoDB)</a></h3>
         `
     )
 })
 
 //EMPLOYEES PAGE ran at localhost:portNum/employees
-app.get('/employees', (req,res) => {
-    res.send(
-        `
-        <h2>Employees</h2>
-        <h1><a href="http://localhost:${portNum}/">Home</a></h1>
-        `
-    )
+app.get('/employees', (req, res) => {
+    mysqlDB.getEmployees()
+        .then((result) => {
+            res.render('employees', { employees: result})
+        })
+        .catch((error) => {
+            res.send(error)
+        })
 })
 
-//DEPARTMENTS PAGE ran at localhost:portNum/departments
-app.get('/departments', (req,res) => {
-    res.send(
-        `
-        <h2>Departments</h2>
-        <h1><a href="http://localhost:${portNum}/">Home</a></h1>
-        `
-    )
+//DEPARTMENTS PAGE ran at localhost:portNum/depts
+app.get('/depts', (req, res) => {
+    mysqlDB.getDepartments()
+        .then((result) => {
+            res.render('departments', { departments: result})
+        })
+        .catch((error) => {
+            res.send(error)
+        })
 })
 
-//EMPLOYEES(MONGODB) PAGE ran at localhost:portNum/employeesMongo
-app.get('/employeesMongo', (req,res) => {
+//EMPLOYEES(MONGODB) PAGE ran at localhost:portNum/employeesMongoDB
+app.get('/employeesMongoDB', (req, res) => {
     res.send(
         `
         <h2>Employees(MongoDB)</h2>
-        <h1><a href="http://localhost:${portNum}/">Home</a></h1>
+        <h3><a href="http://localhost:${portNum}/">Home</a></h3>
         `
     )
 })
