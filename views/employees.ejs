@@ -11,6 +11,7 @@
         <th>Name</th>
         <th>Role</th>
         <th>Salary</th>
+        <th></th>
     </tr>
     <% employees.forEach((employee)=> { %>
         <tr>
@@ -25,6 +26,9 @@
             </td>
             <td>
                 <%= employee.salary %>
+            </td>
+            <td>
+                <a href="http://localhost:4001/employees/edit/<%= employee.eid %>">Update</a>
             </td>
         </tr>
         <% }) %>

@@ -27,6 +27,44 @@ var getEmployees = function () {
             })
     })
 }
+
+//Function to update employee details
+//Chooses employee to populate form to edit details
+var editEmployee = function (eid) {
+    return new Promise((resolve, reject) => {
+        var mySqlQuery = {
+            sql: 'select * from employee where eid=?',
+            values: [eid]
+        }
+
+        mysqlPool.query(mySqlQuery)
+            .then((data) => {
+                resolve(data)
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
+
+//updates employee data which user has entered
+var editEmployeeDB = function (eid, ename, role, salary) {
+    return new Promise((resolve, reject) => {
+        var mySqlQuery = {
+            sql: 'update employee set ename = ?, role = ?, salary = ? where eid = ?',
+            values: [ename, role, salary, eid]
+        }
+
+        mysqlPool.query(mySqlQuery)
+            .then((data) => {
+                resolve(data)
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
+
 //Function to query all data from the dept table
 var getDepartments = function () {
     return new Promise((resolve, reject) => {
@@ -41,5 +79,5 @@ var getDepartments = function () {
 }
 
 //export functions for use outside this page
-module.exports = {getEmployees, getDepartments}
+module.exports = { getEmployees, editEmployee, editEmployeeDB, getDepartments}
 

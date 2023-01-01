@@ -1,0 +1,32 @@
+
+<h2>Edit Employees</h2>
+
+<ul>
+    <li>Employee Name must be at least 5 characters</li>
+    <li>Role Can Be either Manager or Employee</li>
+    <li>Salary must be  > 0</li>
+</ul>
+
+<form href="http://localhost:4001/employees/edit/<%= editEmployee[0].eid %>" method="POST">
+    <b><label>EID:</label></b>
+    <!-- Set readonly to true as EID is not editable -->
+    <input type="text" readonly="true" name="eid" value="<%= editEmployee[0].eid%>" required></input>
+    <br>
+    <!-- Min length of 5 characters set by minlength -->
+    <b><label>Name:</label></b>
+    <input type="text" name="ename" value="<%= editEmployee[0].ename %>" minlength="5" required></input>
+    <br>
+    <!-- Becasue there are only two options for role a drop down menu with both ensures the correct one is chosen -->
+    <b><label for="role">Role:</label></b>
+    <select id="role" name="role" required>
+        <option value="Manager">Manager</option>
+        <option value="Employee">Employee</option>
+    </select>
+    <br>
+    <!-- Minimum salary set to 0.01 and step set to .01 to allow cents in the amount-->
+    <b><label>Salary:</label></b>
+    <input type="number" name="salary" value="<%= editEmployee[0].salary %>" min="0.01" step=".01" required></input>
+    <br>
+    <input type="submit" value="Update">
+</form>
+<a href="http://localhost:4001/">Home</a>
