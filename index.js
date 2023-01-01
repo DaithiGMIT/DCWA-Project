@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.get('/employees', (req, res) => {
     mysqlDB.getEmployees()
         .then((result) => {
-            res.render('employees', { employees: result})
+            res.render('employees', { employees: result })
         })
         .catch((error) => {
             res.send(error)
@@ -64,10 +64,26 @@ app.post('/employees/edit/:eid', (req, res) => {
 app.get('/depts', (req, res) => {
     mysqlDB.getDepartments()
         .then((result) => {
-            res.render('departments', { departments: result})
+            res.render('departments', { departments: result })
         })
         .catch((error) => {
             res.send(error)
+        })
+})
+
+//Recieves the department id and tries to delete, if not successful diplays a message on the page saying so, if successful then returns to the depts page
+app.get("/depts/delete/:did", (req, res) => {
+    mysqlDB.deleteDepartment(req.params.did)
+        .then((data) => {
+            res.redirect("/depts")
+        })
+        .catch((error) => {
+            console.log(error)
+            res.send(`
+            <h1>Error Message</h1>
+            <h2>${req.params.did} has employees and cannot be deleted</h2>
+            <h3><a href="http://localhost:${portNum}/">Home</a></h3>
+        `)
         })
 })
 

@@ -10,6 +10,7 @@
     <th>Name</th>
     <th>Budget</th>
     <th>Location</th>
+    <th>Delete</th>
 </tr>
 <% departments.forEach((departments)=> { %>
     <tr>
@@ -24,6 +25,10 @@
         </td>
         <td>
             <%= departments.lid %>
+        </td>
+        <td>
+            <!-- Uses the selected rows department id to start the deletion process -->
+            <a href="http://localhost:4001/depts/delete/<%= departments.did %>">Delete</a>
         </td>
     </tr>
     <% }) %>
