@@ -98,6 +98,44 @@ app.get('/employeesMongoDB', (req, res) => {
         })
 })
 
+//ADD EMPLOYEE(MONGODB) Page ran at localhost:portNum/addEmployeeMongo
+app.get('/employeesMongoDB/add', (req, res) => {
+    res.render("addEmployeeMongo")
+})
+
+//POST METHOD to check eid against mongo and sql databases
+app.post('/employeesMongoDB/add', (req, res) => {
+    //Calls the function to see iuf there is a match in the sql db if the results are not null then there is a match
+    mysqlDB.checkEID(req.body._id).then((result) => {
+        if (result[0] != null) {
+            //If matched in the sql database then attempt to add to mongo database
+            mongoDB.addEmployeeMongo(req.body._id, req.body.phone, req.body.email)
+                .then((result) => {
+                    //If successful then redirect to the employees mongo page
+                    res.redirect("/employeesMongoDB")
+                })
+                .catch((error) => {
+                    //If the adding fails then there must be a matching eid allready in the mongo db
+                    res.send(`
+                <h1>Error Message</h1>
+                <h2>Error: EID ${req.body._id} already exist in MongoDB</h2>
+                <h3><a href="http://localhost:${portNum}/">Home</a></h3>
+            `)
+                })
+        }
+
+        else {
+            res.send(`
+                <h1>Error Message</h1>
+                <h2>Employee ${req.body._id} doesn't exist in MYSQL DB</h2>
+                <h3><a href="http://localhost:${portNum}/">Home</a></h3>
+            `)
+        }
+    })
+        .catch((error) => {
+            console.log(error)
+        })
+})
 
 
 //Have the 'node index.js' command listen from the terminal

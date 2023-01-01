@@ -52,6 +52,18 @@ var editEmployeeDB = function (eid, ename, role, salary) {
     })
 }
 
+//Function to check all existing EIDS in the db to see if there is a match for the given eid
+var checkEID = function (eid) {
+    return new Promise((resolve, reject) => {
+        var mySqlQuery = {
+            sql: 'select * from employee where eid like ?',
+            values: [eid]
+        }
+        mysqlPool.query(mySqlQuery)
+            .then((data) => { resolve(data) }).catch((error) => { reject(error) })
+    })
+}
+
 //Function to query all data from the dept table
 var getDepartments = function () {
     return new Promise((resolve, reject) => {
@@ -75,5 +87,5 @@ var deleteDepartment = function (did) {
 }
 
 //export functions for use outside this page
-module.exports = { getEmployees, editEmployee, editEmployeeDB, getDepartments, deleteDepartment }
+module.exports = { getEmployees, editEmployee, editEmployeeDB, checkEID, getDepartments, deleteDepartment }
 
